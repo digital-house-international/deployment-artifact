@@ -31,13 +31,7 @@ tar -zxf "$tar_file" -C /tmp/php || exit_with_error "Impossible d'extraire le fi
 # Installation des dépendances
 echo "Installation des dépendances..."
 if command -v apt &>/dev/null; then
-    sudo apt install -y pkg-config build-essential autoconf bison re2c libxml2-dev libsqlite3-dev || exit_with_error "Impossible d'installer les dépendances"
-elif command -v dnf &>/dev/null; then
-    sudo dnf install -y re2c bison autoconf make libtool ccache libxml2-devel sqlite-devel || exit_with_error "Impossible d'installer les dépendances"
-elif command -v yum &>/dev/null; then
-    sudo yum install -y re2c bison autoconf make libtool ccache libxml2-devel sqlite-devel || exit_with_error "Impossible d'installer les dépendances"
-else
-    exit_with_error "Système de gestion de paquets non pris en charge"
+    $(apt update && apt install -y pkg-config build-essential autoconf bison re2c libxml2-dev libsqlite3-dev) || echo "Impossible d'installer les dépendances"
 fi
 
 # Configuration, compilation et installation de PHP
@@ -45,7 +39,8 @@ echo "Configuration de PHP..."
 cd "$extracted_dir" || exit_with_error "Impossible de se déplacer dans le répertoire d'extraction"
 ./configure --prefix="$install_dir" --disable-fileinfo || exit_with_error "Échec de la configuration de PHP"
 make || exit_with_error "Échec de la compilation de PHP"
-sudo make install || exit_with_error "Échec de l'installation de PHP"
+make install || exit_with_error "Échec de l'installation de PHP"
+make test
 
 # Affichage du chemin vers l'exécutable PHP et la version installée
 echo "Installation terminée."
