@@ -46,4 +46,7 @@ make test
 echo "Installation terminée."
 echo "Le chemin vers l'exécutable PHP est : $(which php)"
 echo "Version de PHP installée :"
+
+cp -r /tmp/makeinstall/bin/* /usr/local/bin
+
 php --version
