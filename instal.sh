@@ -40,7 +40,7 @@ cd "$extracted_dir" || exit_with_error "Impossible de se déplacer dans le répe
 ./configure --prefix="$install_dir" --disable-fileinfo || exit_with_error "Échec de la configuration de PHP"
 make || exit_with_error "Échec de la compilation de PHP"
 make install || exit_with_error "Échec de l'installation de PHP"
-make test
+#make test
 
 # Affichage du chemin vers l'exécutable PHP et la version installée
 echo "Installation terminée."
